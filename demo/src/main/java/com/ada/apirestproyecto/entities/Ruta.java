@@ -1,5 +1,7 @@
 package com.ada.apirestproyecto.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,26 +36,21 @@ public class Ruta {
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion = LocalDateTime.now();
 
-    // Relaciones
+    // RELACIONES
+
+    // Hija de Usuario
     @ManyToOne
     @JoinColumn(name = "id_creador", nullable = false)
+    @JsonBackReference(value = "usuario-rutas") 
     private Usuario creador;
 
+    // Madre de Valoraciones
     @OneToMany(mappedBy = "ruta", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "ruta-valoraciones") 
     private List<Valoracion> valoraciones;
 
     // Constructores
-    public Ruta() {}
-
-    public Ruta(String nombre, String descripcion, String ubicacion, String dificultad, String tipoActividad, BigDecimal longitud, Usuario creador) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.dificultad = dificultad;
-        this.tipoActividad = tipoActividad;
-        this.longitud = longitud;
-        this.creador = creador;
-        this.fechaCreacion = LocalDateTime.now();
+    public Ruta() {
     }
 
     // Getters y Setters

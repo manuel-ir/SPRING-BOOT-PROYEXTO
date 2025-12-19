@@ -33,6 +33,27 @@ public class UsuarioController {
         return usuarioService.save(usuario);
     }
 
+    // PUT localhost:8080/api/usuarios/1
+    @PutMapping("/{id}")
+    public Usuario actualizar(@RequestBody Usuario usuarioNuevo, @PathVariable Long id) {
+
+        Optional<Usuario> opcional = usuarioService.findById(id);
+
+        // Si existe, lo actualizamos
+        if (opcional.isPresent()) {
+            Usuario usuarioExistente = opcional.get();
+
+            // Pasamos los datos nuevos al usuario que ya existe
+            usuarioExistente.setNombreUsuario(usuarioNuevo.getNombreUsuario());
+            usuarioExistente.setEmail(usuarioNuevo.getEmail());
+            usuarioExistente.setPassword(usuarioNuevo.getPassword());
+
+            // Guardamos los cambios
+            return usuarioService.save(usuarioExistente);
+        }
+        return null;
+    }
+
     // DELETE localhost:8080/api/usuarios/1
     @DeleteMapping("/{id}")
     public void borrar(@PathVariable Long id) {

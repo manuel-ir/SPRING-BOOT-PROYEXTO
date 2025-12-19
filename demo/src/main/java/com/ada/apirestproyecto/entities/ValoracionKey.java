@@ -39,7 +39,7 @@ public class ValoracionKey implements Serializable {
         this.idRuta = idRuta;
     }
 
-    // hashCode y equals obligatorios
+    // hashCode y equals 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

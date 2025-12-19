@@ -1,5 +1,6 @@
 package com.ada.apirestproyecto.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,15 +26,21 @@ public class Usuario {
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
-    // Relaciones
+    // RELACIONES
+
+    // Relación 1: Usuario -> Rutas
     @OneToMany(mappedBy = "creador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "usuario-rutas") 
     private List<Ruta> rutasCreadas;
 
+    // Relación 2: Usuario -> Valoraciones
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "usuario-valoraciones") 
     private List<Valoracion> valoraciones;
 
     // Constructores
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Usuario(String nombreUsuario, String email, String password) {
         this.nombreUsuario = nombreUsuario;

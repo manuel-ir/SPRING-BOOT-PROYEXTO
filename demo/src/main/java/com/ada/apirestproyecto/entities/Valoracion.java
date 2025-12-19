@@ -1,5 +1,6 @@
 package com.ada.apirestproyecto.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,15 +11,18 @@ public class Valoracion {
     @EmbeddedId
     private ValoracionKey id = new ValoracionKey();
 
-    // Relaciones
+    // RELACIONES
+
     @ManyToOne
     @MapsId("idUsuario")
     @JoinColumn(name = "id_usuario")
+    @JsonBackReference(value = "usuario-valoraciones") 
     private Usuario usuario;
 
     @ManyToOne
     @MapsId("idRuta")
     @JoinColumn(name = "id_ruta")
+    @JsonBackReference(value = "ruta-valoraciones") 
     private Ruta ruta;
 
     @Column(nullable = false)
@@ -31,7 +35,8 @@ public class Valoracion {
     private LocalDateTime fechaValoracion = LocalDateTime.now();
 
     // Constructores
-    public Valoracion() {}
+    public Valoracion() {
+    }
 
     public Valoracion(Usuario usuario, Ruta ruta, Integer puntuacion, String comentario) {
         this.usuario = usuario;
